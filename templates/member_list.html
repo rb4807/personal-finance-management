@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="w-full">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="px-4 py-2">Category</th>
+                <th class="px-4 py-2">Description</th>
+                <th class="px-4 py-2">Date of Expense</th>
+                <th class="px-4 py-2">Amount</th>
+                <th class="px-4 py-2">Update</th>
+                <th class="px-4 py-2">Remove</th>
+            </tr>
+        </thead>
+        <tr>
+            <ul>
+                {% for expense in user_expenses %}
+                    <li> 
+                        <tr class="text-center">
+                            <td class="px-4 py-2"> {{ expense.category }} </td>
+                            <td class="px-4 py-2">{{ expense.description }}  </td>
+                            <td class="px-4 py-2"> {{ expense.date }} </td>
+                            <td class="px-4 py-2">INR {{ expense.amount }} </td>
+                            <td class="border px-4 py-2"><a href="{% url 'update_expense' expense.id %}"><button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded">Edit</button></a></td>
+                            <td class="border px-4 py-2">
+                                <form method="post" action="{% url 'delete_expense' expense.id %}">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Delete" class="bg-red-500 hover:bg-red-600 text-white font-semibold ml-2 px-3 py-1 rounded">
+                                </form>
+                            </td>
+                        </tr>
+                    </li>
+                {% endfor %}
+            </ul>
+        </tr>
+    </table>
+{% endblock content %}
+    
